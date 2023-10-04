@@ -64,7 +64,7 @@ router.put('/songs/:id', getSong, async (req, res) => {
 
 
 // Delete one song
-router.delete('/songs/:id', getSong, async (req, res) => {
+router.delete('/songs/:id', async (req, res) => {
   try {
     await res.song.remove()
     res.json({ message: 'Song deleted' })
