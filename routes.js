@@ -66,7 +66,7 @@ router.put('/songs/:id', getSong, async (req, res) => {
 // Delete one song
 router.delete('/songs/:id', async (req, res) => {
   try {
-    await res.song.remove()
+    await Song.findByIdAndDelete(req.params.id);
     res.json({ message: 'Song deleted' })
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -79,11 +79,11 @@ async function getSong(req, res, next) {
     if (song == null) {
       return res.status(404).json({ message: 'Cannot find song' })
     }
+    res.song = song
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
 
-  res.song = song
   next()
 }
 
