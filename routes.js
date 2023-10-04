@@ -31,20 +31,6 @@ router.post('/songs', async (req, res) => {
   }
 })
 
-// Update one song using the patch method
-router.patch('/songs/:id', getSong, async (req, res) => {
-  if (req.body.title != null) {
-    res.song.title = req.body.title
-  }
-
-  try {
-    const updatedSong = await res.song.save()
-    res.json(updatedSong)
-  } catch (err) {
-    res.status(400).json({ message: err.message })
-  }
-})
-
 // Update one song using put method
 router.put('/songs/:id', getSong, async (req, res) => {
   if (req.body.title == null) {
@@ -52,10 +38,9 @@ router.put('/songs/:id', getSong, async (req, res) => {
   }
 
   res.song.title = req.body.title
-  res.song.description = req.body.description
 
   try {
-    const updatedSong = await res.song.save()
+    const updatedSong = await Song.findByIdAndUpdate(req.params.id, {title: req.body.title})
     res.json(updatedSong)
   } catch (err) {
     res.status(400).json({ message: err.message })
